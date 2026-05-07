@@ -1,47 +1,23 @@
-node('built-in') 
-{
-    stage('Continuous Download') 
+node('built-in'){
+    stage('Continous Download')
     {
-      git branch: 'main', url: 'https://github.com/sysgeeks4u/Maven-Tomcat.git'
-
-     try
-     {
-        sh 'mvn package'  //This might Fail
-
-     }
-
-     catch (Exception e)
-     {
-      echo "Build is Faild"
-      // Email Notification
-
-      mail bcc: '', body: 'CI CD & CD Faild', cc: 'rnraju4u@gmail.com', from: '', replyTo: '', subject: 'CI_CD_Process', to: 'ram.ashokit@gmail.com'
-      exit(1)
-     }
-
-    git branch: 'main', url: 'https://github.com/sysgeeks4u/Maven-Tomcat.git'
+        git branch: 'main', url: 'https://github.com/Arunvarma1862/maven-tomcat.git'
     }
-
-    stage('Continuous Build') 
+    stage('Continous Build')
     {
-    sh 'mvn package'
+        sh 'mvn package'
     }
-
-    stage('Continuous Deployment') 
+    stage('Continous Delivery')
     {
-    deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcattest', path: '', url: 'http://172.31.24.35:8080')], contextPath: 'testapp', war: '**/*.war'
+        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'Tomcat9', path: '', url: 'http://172.31.14.49:8080')], contextPath: 'testapps', war: '**/*.war'
     }
-    
-    stage('Continuous Test') 
+    stage('Continous Testing')
     {
-    git branch: 'main', url: 'https://github.com/sysgeeks4u/Functional-Testing.git'
-
-    sh 'java -jar /var/lib/jenkins/workspace/Scripted-Pipeline/testing.jar'
+        git branch: 'main', url: 'https://github.com/Arunvarma1862/Functional-Testing.git'
+        sh 'java -jar /var/lib/jenkins/workspace/Scripted-Pipeline/testing.jar'
     }
-    
-    stage('Continuous Delivery') 
+    stage('Continous Deploy')
     {
-    deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatprod', path: '', url: 'http://172.31.68.42:8080')], contextPath: 'prodapp', war: '**/*.war'
+        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatProd', path: '', url: 'http://172.31.0.224:8080')], contextPath: 'prodapps', war: '**/*.war'
     }
 }
-
