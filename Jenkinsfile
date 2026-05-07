@@ -54,7 +54,7 @@ node('built-in') {
                 adapters: [
                     tomcat9(
                         credentialsId: 'Tomcat9',
-                      url: ''http://172.31.14.49:8080'
+                      url: 'http://172.31.14.49:8080'
                     )
                 ],
                 contextPath: 'testapp',
@@ -111,7 +111,7 @@ node('built-in') {
                 adapters: [
                     tomcat9(
                         credentialsId: 'tomcatProd',
-                       url: http://172.31.0.224:8080'
+                       url: 'http://172.31.0.224:8080'
                     )
                 ],
                 contextPath: 'prodapp',
