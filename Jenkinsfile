@@ -2,6 +2,16 @@ node('built-in'){
     stage('Continous Download')
     {
         git branch: 'main', url: 'https://github.com/Arunvarma1862/maven-tomcat.git'
+        try{
+           sh 'mvn pack'    // This might fail
+        }
+        catch(Exception){
+          echo "Build is failed"
+          //email notification
+          mail bcc: '', body: 'Build is failed', cc: 'arunbabu1862@gmail.com', from: '', replyTo: '', subject: 'CI/CD & CD process', to: 'arunbabu120894@gmail.com'
+          exit(1)
+        }
+        git branch: 'main', url: 'https://github.com/Arunvarma1862/maven-tomcat.git'
     }
     stage('Continous Build')
     {
@@ -9,7 +19,7 @@ node('built-in'){
     }
     stage('Continous Delivery')
     {
-        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'Tomcat9', path: '', url: 'http://172.31.14.49:8080')], contextPath: 'testapps', war: '**/*.war'
+        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'Tomcat9', path: '', url: 'http://172.31.14.49:8080')], contextPath: 'testapp', war: '**/*.war'
     }
     stage('Continous Testing')
     {
@@ -18,6 +28,6 @@ node('built-in'){
     }
     stage('Continous Deploy')
     {
-        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatProd', path: '', url: 'http://172.31.0.224:8080')], contextPath: 'prodapps', war: '**/*.war'
+        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatProd', path: '', url: 'http://172.31.0.224:8080')], contextPath: 'prodapp', war: '**/*.war'
     }
 }
