@@ -6,13 +6,13 @@ node('built-in') {
             git branch: 'main',
                 url: 'https://github.com/Arunvarma1862/maven-tomcat.git'
 
-            echo "Source Code Downloaded Successfully"
+            echo "Code Download Successful"
 
-        } catch (Exception e) {
+        } catch(Exception e) {
 
-            echo "Continuous Download Stage Failed"
+            echo "Download Failed"
 
-            mail bcc: '',
+         mail bcc: '',
                  body: "Code Download Failed\n\nError: ${e}",
                  cc: 'arunbabu1862@gmail.com',
                  from: '',
@@ -20,7 +20,7 @@ node('built-in') {
                  subject: 'CI/CD Pipeline Failure - Download Stage',
                  to: 'arunbabu120894@gmail.com'
 
-            error("Pipeline Stopped Due to Download Failure")
+            error("Stopping Pipeline")
         }
     }
 
@@ -29,13 +29,13 @@ node('built-in') {
 
             sh 'mvn clean package'
 
-            echo "Build Completed Successfully"
+            echo "Build Successful"
 
-        } catch (Exception e) {
+        } catch(Exception e) {
 
-            echo "Continuous Build Stage Failed"
+            echo "Build Failed"
 
-           mail bcc: '',
+          mail bcc: '',
                  body: "Code Download Failed\n\nError: ${e}",
                  cc: 'arunbabu1862@gmail.com',
                  from: '',
@@ -43,31 +43,31 @@ node('built-in') {
                  subject: 'CI/CD Pipeline Failure - Download Stage',
                  to: 'arunbabu120894@gmail.com'
 
-            error("Pipeline Stopped Due to Build Failure")
+            error("Stopping Pipeline")
         }
     }
 
     stage('Continuous Delivery') {
         try {
 
-            deploy adapters: [
-                tomcat9(
-                    alternativeDeploymentContext: '',
-                    credentialsId: 'Tomcat9',
-                    path: '',
-                    url: ''http://172.31.14.49:8080'
-                )
-            ],
-            contextPath: 'testapp',
-            war: '**/*.war'
+            deploy(
+                adapters: [
+                    tomcat9(
+                        credentialsId: 'Tomcat9',
+                      url: ''http://172.31.14.49:8080'
+                    )
+                ],
+                contextPath: 'testapp',
+                war: '**/*.war'
+            )
 
-            echo "Application Deployed to Test Server Successfully"
+            echo "Deployment to Test Server Successful"
 
-        } catch (Exception e) {
+        } catch(Exception e) {
 
-            echo "Continuous Delivery Stage Failed"
+            echo "Delivery Failed"
 
-             mail bcc: '',
+          mail bcc: '',
                  body: "Code Download Failed\n\nError: ${e}",
                  cc: 'arunbabu1862@gmail.com',
                  from: '',
@@ -75,7 +75,7 @@ node('built-in') {
                  subject: 'CI/CD Pipeline Failure - Download Stage',
                  to: 'arunbabu120894@gmail.com'
 
-            error("Pipeline Stopped Due to Delivery Failure")
+            error("Stopping Pipeline")
         }
     }
 
@@ -83,16 +83,16 @@ node('built-in') {
         try {
 
             git branch: 'main',
-                url: 'https://github.com/Arunvarma1862/Functional-Testing.git'
+               url: 'https://github.com/Arunvarma1862/Functional-Testing.git'
 
-            sh 'java -jar /var/lib/jenkins/workspace/Scripted-Pipeline/testing.jar'
+            sh 'java -jar /var/lib/jenkins/workspace/Scripted-Pipeline-Jenkinsfile/testing.jar'
 
-            echo "Functional Testing Completed Successfully"
+            echo "Testing Successful"
 
-        } catch (Exception e) {
+        } catch(Exception e) {
 
-            echo "Continuous Testing Stage Failed"
-   mail bcc: '',
+            echo "Testing Failed"
+                  mail bcc: '',
                  body: "Code Download Failed\n\nError: ${e}",
                  cc: 'arunbabu1862@gmail.com',
                  from: '',
@@ -100,31 +100,30 @@ node('built-in') {
                  subject: 'CI/CD Pipeline Failure - Download Stage',
                  to: 'arunbabu120894@gmail.com'
 
-            error("Pipeline Stopped Due to Testing Failure")
+            error("Stopping Pipeline")
         }
     }
 
     stage('Continuous Deploy') {
         try {
 
-            deploy adapters: [
-                tomcat9(
-                    alternativeDeploymentContext: '',
-                    credentialsId: 'tomcatProd',
-                    path: '',
-                    url: http://172.31.0.224:8080'
-                )
-            ],
-            contextPath: 'prodapp',
-            war: '**/*.war'
+            deploy(
+                adapters: [
+                    tomcat9(
+                        credentialsId: 'tomcatProd',
+                       url: http://172.31.0.224:8080'
+                    )
+                ],
+                contextPath: 'prodapp',
+                war: '**/*.war'
+            )
 
-            echo "Application Deployed to Production Successfully"
+            echo "Deployment to Production Successful"
 
-        } catch (Exception e) {
+        } catch(Exception e) {
 
-            echo "Continuous Deploy Stage Failed"
-
-           mail bcc: '',
+            echo "Production Deployment Failed"
+                 mail bcc: '',
                  body: "Code Download Failed\n\nError: ${e}",
                  cc: 'arunbabu1862@gmail.com',
                  from: '',
@@ -132,7 +131,7 @@ node('built-in') {
                  subject: 'CI/CD Pipeline Failure - Download Stage',
                  to: 'arunbabu120894@gmail.com'
 
-            error("Pipeline Stopped Due to Production Deployment Failure")
+            error("Stopping Pipeline")
         }
     }
 }
