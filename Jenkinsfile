@@ -118,7 +118,7 @@ node('built-in') {
                 war: '**/*.war'
             )
 
-            echo "Deployment to Production Successfully complete"
+            echo "Deployment to Production Successfully "
 
         } catch(Exception e) {
 
