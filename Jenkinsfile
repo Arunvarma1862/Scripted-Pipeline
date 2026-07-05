@@ -61,7 +61,7 @@ node('built-in') {
                 war: '**/*.war'
             )
 
-            echo "Deployment to Test Server Successful"
+            echo "Deployment to Test Server Successfull complete"
 
         } catch(Exception e) {
 
