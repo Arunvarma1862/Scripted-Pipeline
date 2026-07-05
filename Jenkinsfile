@@ -53,8 +53,8 @@ node('built-in') {
             deploy(
                 adapters: [
                     tomcat9(
-                        credentialsId: 'Tomcat9',
-                      url: 'http://172.31.14.49:8080'
+                        credentialsId: 'tomcat9',
+                      url: 'http://172.31.14.49:9001'
                     )
                 ],
                 contextPath: 'testapp',
@@ -110,8 +110,8 @@ node('built-in') {
             deploy(
                 adapters: [
                     tomcat9(
-                        credentialsId: 'tomcatProd',
-                       url: 'http://172.31.0.224:8080'
+                        credentialsId: 'tomcat9',
+                       url: 'http://172.31.4.221:9001'
                     )
                 ],
                 contextPath: 'prodapp',
