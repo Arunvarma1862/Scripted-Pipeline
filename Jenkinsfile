@@ -111,7 +111,7 @@ node('built-in') {
                 adapters: [
                     tomcat9(
                         credentialsId: 'tomcat9',
-                       url: 'http://172.31.4.221:9001'
+                       url: 'http://172.31.4.221:9000'
                     )
                 ],
                 contextPath: 'prodapp',
