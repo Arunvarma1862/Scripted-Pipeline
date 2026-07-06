@@ -6,7 +6,7 @@ node('built-in') {
             git branch: 'main',
                 url: 'https://github.com/Arunvarma1862/maven-tomcat.git'
 
-            echo "Code Download Successful"
+            echo "Code Download Successfully"
 
         } catch(Exception e) {
 
